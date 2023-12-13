@@ -4,18 +4,18 @@ import 'styled-components';
 declare module 'styled-components' {
   export interface DefaultTheme {
     breakpoints: {
-      phoneXs: number;
-      phoneSm: number;
-      phoneMd: number;
-      phoneLg: number;
-      phoneXlg: number;
-      tabletSm: number;
-      tabletMd: number;
-      tabletLg: number;
-      desktopXs: number;
-      desktopSm: number;
-      desktopMd: number;
-      desktopLg: number;
+      phoneXs: string;
+      phoneSm: string;
+      phoneMd: string;
+      phoneLg: string;
+      phoneXlg: string;
+      tabletSm: string;
+      tabletMd: string;
+      tabletLg: string;
+      desktopXs: string;
+      desktopSm: string;
+      desktopMd: string;
+      desktopLg: string;
     };
 
     colors: {
@@ -24,17 +24,23 @@ declare module 'styled-components' {
       gentleGray: string;
       dustyPink: string;
       peachPink: string;
+      violet: string;
       brown: string;
       red: string;
       deepBlack: string;
       fairPink: string;
+      skyBlue: string;
+      bgGrey: string;
+      steelBlue: string;
+      seaGreen: string;
+      darkSeaGreen: string;
     };
 
     radius: {
-      small: string;
-      medium: string;
-      large: string;
-      circle: string;
+      r4: string;
+      r8: string;
+      r10: string;
+      rCircle: string;
     };
 
     typography: {
@@ -47,6 +53,7 @@ declare module 'styled-components' {
         mainFont: string;
       },
       fontSize: {
+        smSize: string;
         mainSize: string;
         mediumSize: string;
         largeSize: string;

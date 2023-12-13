@@ -6,15 +6,22 @@ import {Pokemons} from "../../api/pokemons";
 import {pending, success, failure} from "../../libs/remote";
 import {AxiosError} from "axios";
 import {PokemonsListType} from "./types";
-
+import {PokemonsTypes} from "../../api/pokemonsTypes";
+import {Evolution} from "../../api/evolution";
 
 function* pokemonSaga(): SagaIterator {
   yield all([
     takeLatest(fetchDetailPokemon, function* fetchDetailPokemonSaga({payload}) {
       try {
-        yield put(setDetailPokemon(pending()));
         const {data} : {data: Pokedex.Pokemon} = yield call(Pokemons.getPokemon, payload);
-        yield put(setDetailPokemon(success(data)));
+        const {data: spices} : {data: Pokedex.PokemonSpecies} = yield call(Evolution.getSpecies, payload);
+        const {data: chain} : {data: Pokedex.EvolutionChain} =
+          yield call(
+            Evolution.getEvolutionChain,
+            spices.evolution_chain.url.replace("https://pokeapi.co/api/v2/evolution-chain/", "")
+          );
+
+        yield put(setDetailPokemon(success({...data, chain: chain.chain})));
       } catch (err) {
         yield put(setDetailPokemon(failure((err as AxiosError).message)));
       }
@@ -24,6 +31,17 @@ function* pokemonSaga(): SagaIterator {
       try {
         yield put(setPokemonsList(pending()));
         const {data} : {data: Pokedex.NamedAPIResourceList} = yield call(Pokemons.getPokemonsList);
+        const {data: types} : {data: Pokedex.NamedAPIResourceList} = yield call(PokemonsTypes.getPokemonsTypesList);
+
+        const typesArr: Pokedex.Type[] = [];
+        const typesFetcher = async () => {
+          if (!typesArr.length) {
+            for (const {name} of types.results) {
+              await PokemonsTypes.getPokemonType(name).then(({data}) => typesArr.push(data));
+            }
+          }
+        }
+        yield typesFetcher();
 
         const newData: PokemonsListType[] = [];
 
@@ -32,8 +50,10 @@ function* pokemonSaga(): SagaIterator {
           newData.push({
             name: pokemon.name,
             id: +arrUrl[arrUrl.length - 2],
-            img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${+arrUrl[arrUrl.length - 2]}.svg`
+            img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${+arrUrl[arrUrl.length - 2]}.svg`,
+            type: typesArr.filter(type => type.pokemon.find(poke => poke.pokemon.name === pokemon.name))!.map(type => type.name)
           })
+
         });
 
         yield put(setPokemonsList(success(newData)));

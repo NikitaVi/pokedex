@@ -11,7 +11,7 @@ const styles = {
   createGlobalStyle: styledComponents.createGlobalStyle,
 } as styledComponents.ThemedStyledComponentsModule<DefaultTheme>;
 
-export const {css, ThemeContext, ThemeProvider, createGlobalStyle,} = styles;
+export const {css, ThemeProvider, createGlobalStyle,} = styles;
 
 export * from './theme';
 
@@ -23,6 +23,7 @@ ${({ theme }) => css`
     font-family: ${theme.typography.font.mainFont};
     color: ${theme.colors.black};
     height: 100%;
+    min-height: 100% !important;
   }
   
   body {

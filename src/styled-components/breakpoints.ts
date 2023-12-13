@@ -1,16 +1,16 @@
 const breakpoints = {
-  phoneXs: 320,
-  phoneSm: 360,
-  phoneMd: 480,
-  phoneLg: 600,
-  phoneXlg: 640,
-  tabletSm: 768,
-  tabletMd: 992,
-  tabletLg: 1024,
-  desktopXs: 1200,
-  desktopSm: 1280,
-  desktopMd: 1368,
-  desktopLg: 1440,
+  phoneXs:"320px",
+  phoneSm:"360px",
+  phoneMd:"480px",
+  phoneLg:"600px",
+  phoneXlg:"640px",
+  tabletSm:"768px",
+  tabletMd:"992px",
+  tabletLg: "1024px",
+  desktopXs: "1200px",
+  desktopSm: "1280px",
+  desktopMd: "1368px",
+  desktopLg: "1440px",
 }
 
 export default breakpoints;

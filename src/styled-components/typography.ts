@@ -8,6 +8,7 @@ const typography = {
     mainFont: "Roboto" || "Open Sans" || "Helvetica"
   },
   fontSize: {
+    smSize: "12px",
     mainSize: "16px",
     mediumSize: "20px",
     largeSize: "32px"
