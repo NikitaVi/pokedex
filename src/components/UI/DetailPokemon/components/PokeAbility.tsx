@@ -13,8 +13,8 @@ const PokeAbility: FC<IPokeAbility> = ({abilities}) => {
     <S.AbilitiesContainer>
       <S.AbilitiesTitle>Abilities</S.AbilitiesTitle>
       <S.AbilitiesWrapper>
-        {abilities.map(ability => (
-          <PokeProp value={ability.ability.name}/>
+        {abilities.map((ability, idx) => (
+          <PokeProp value={ability.ability.name} key={idx}/>
         ))}
       </S.AbilitiesWrapper>
     </S.AbilitiesContainer>

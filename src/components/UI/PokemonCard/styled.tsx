@@ -17,6 +17,10 @@ export const CardWrapper = styled.button`
     &:hover {
       border: 1px solid ${colors.brown};
     }
+
+    &:disabled {
+      color: ${colors.black};
+    }
   `}
 `;
 

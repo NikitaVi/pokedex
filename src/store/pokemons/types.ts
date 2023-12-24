@@ -1,8 +1,13 @@
-export type PokemonsListType = {
+export type PokemonsListItem = {
   name: string;
   id: number;
   img: string;
   type: string[]
+}
+
+export type PokemonsListType = {
+  list: PokemonsListItem[];
+  next: string | null;
 }
 
 export enum PokemonTypeEnum {

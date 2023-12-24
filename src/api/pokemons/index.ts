@@ -6,7 +6,7 @@ export class Pokemons {
     return ApiClient.get(`/pokemon/${param}/`)
   }
 
-  static getPokemonsList = () => {
-    return ApiClient.get(`/pokemon/`)
+  static getPokemonsList = (pager: {pageSize: number, offset?: number}) => {
+    return ApiClient.get(`/pokemon?limit=${pager.pageSize}&offset=${pager.offset}`)
   }
 }

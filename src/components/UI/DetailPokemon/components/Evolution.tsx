@@ -21,7 +21,6 @@ const Evolution: FC<IEvolution> = ({chain, selectHandler}) => {
     setEvolutionChain([]);
 
     const evolutionHandler = (chain: PokeAPI.Chain) => {
-      console.log(chain)
       setEvolutionChain(prev => [...prev,
         {
           id: +chain.species.url

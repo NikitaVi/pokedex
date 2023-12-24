@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "include": ["src/components", "src/custom.d.ts"],
+
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
     /* Projects */

@@ -5,6 +5,7 @@ export const Section = styled.section<{ background?: string }>`
     background-color: ${background || colors.fairPink};
     padding-bottom: ${unit * 10}px;
     padding: 0 ${unit * 5}px;
+    min-height: 100vh;
   `}
 `;
 

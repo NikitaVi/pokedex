@@ -10,7 +10,7 @@ export const DetailPokemonWrapper = styled.div`
     flex-direction: column;
     gap: 20px;
     align-items: center;
-    padding: 40px 5%;
+    padding: 20px 5%;
     margin: 20px 0;
     background-color: ${colors.violet};
     border-radius: ${radius.r10};
@@ -22,29 +22,49 @@ export const DetailPokemonWrapper = styled.div`
       right: 0;
       width: auto;
       height: 100%;
+      z-index: 1001;
     }
   `}
 `;
 
 export const PokeImage = styled.img`
-  width: 160px;
-  height: 160px;
-  image-rendering: pixelated;
+  ${({ theme: { typography, breakpoints} }) => css`
+    width: 160px;
+    height: 160px;
+    image-rendering: pixelated;
+
+    @media (max-width: ${breakpoints.phoneLg}) {
+      width: 120px;
+      height: 120px;
+    }
+  `}
 `;
 
 export const PokeName = styled.h1`
-  ${({ theme: { typography} }) => css`
+  ${({ theme: { typography, breakpoints} }) => css`
     font-size: ${typography.fontSize.largeSize};
     text-transform: capitalize;
+
+    @media (max-width: ${breakpoints.tabletMd}) {
+      margin: 0;
+    }
   `}
 `;
 
 export const PokePhysicsWrap = styled.div`
-  ${({ theme: { unit} }) => css`
+  ${({ theme: { unit, breakpoints} }) => css`
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: ${unit * 1.5}px;
+
+    @media (max-width: ${breakpoints.tabletMd}) {
+      width: 50%;
+    }
+
+    @media (max-width: ${breakpoints.phoneLg}) {
+      width: 100%;
+    }
   `}
 `;
 
@@ -125,21 +145,37 @@ export const AbilitiesTitle = styled.h3`
 `;
 
 export const AbilitiesContainer = styled.div`
-  ${({ theme: { unit} }) => css`
+  ${({ theme: { unit, breakpoints} }) => css`
     display: flex;
     width: 100%;
     flex-direction: column;
     align-items: center;
     gap: ${unit * 1.5}px;
+
+    @media (max-width: ${breakpoints.tabletMd}) {
+      width: 50%;
+    }
+
+    @media (max-width: ${breakpoints.phoneLg}) {
+      width: 100%;
+    }
   `}
 `;
 
 export const EvolutionRow = styled.div`
-  ${({ theme: { unit} }) => css`
+  ${({ theme: { unit, breakpoints} }) => css`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     width: 100%;
     gap: ${unit * 2}px;
+
+    @media (max-width: ${breakpoints.tabletMd}) {
+      width: 50%;
+    }
+
+    @media (max-width: ${breakpoints.phoneLg}) {
+      width: 100%;
+    }
   `}
 `;
 
@@ -166,3 +202,34 @@ export const PokemonChainImg = styled.img`
     aspect-ratio: 1/1;
   `}
 `;
+
+export const CloseWrapper = styled.div`
+  ${({ theme: { breakpoints} }) => css`
+    width: 100%;
+    justify-content: flex-end;
+    display: none;
+
+    @media (max-width: ${breakpoints.tabletMd}) {
+      display: flex;
+    }
+  `}
+`;
+
+export const CloseBtn = styled.button`
+  ${({ theme: { unit} }) => css`
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    cursor: pointer;
+  `}
+`;
+
+export const CloseIcon = styled.img`
+  ${({ theme: { unit} }) => css`
+    width: 100%;
+    height: 100%;
+    max-width: ${unit * 2}px;
+    max-height: ${unit * 2}px;
+  `}
+`;
+

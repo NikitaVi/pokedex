@@ -1,13 +1,14 @@
 import {SagaIterator} from "redux-saga";
-import {all, takeLatest, put, call} from "redux-saga/effects";
-import {fetchDetailPokemon, fetchPokemonsList, setDetailPokemon, setPokemonsList} from "./slice";
+import {all, takeLatest, put, call, select} from "redux-saga/effects";
+import {fetchDetailPokemon, fetchPokemonsList, setDetailPokemon, setDisableFetch, setPokemonsList} from "./slice";
 import Pokedex from "pokedex-promise-v2";
 import {Pokemons} from "../../api/pokemons";
-import {pending, success, failure} from "../../libs/remote";
+import { success, failure} from "../../libs/remote";
 import {AxiosError} from "axios";
-import {PokemonsListType} from "./types";
+import {PokemonsListItem, PokemonsListType} from "./types";
 import {PokemonsTypes} from "../../api/pokemonsTypes";
 import {Evolution} from "../../api/evolution";
+import {selectPokemonsList} from "./selector";
 
 function* pokemonSaga(): SagaIterator {
   yield all([
@@ -22,17 +23,17 @@ function* pokemonSaga(): SagaIterator {
           );
 
         yield put(setDetailPokemon(success({...data, chain: chain.chain})));
+        yield put(setDisableFetch(false));
       } catch (err) {
         yield put(setDetailPokemon(failure((err as AxiosError).message)));
       }
     }),
 
-    takeLatest(fetchPokemonsList, function* fetchDetailPokemonSaga({payload}) {
+    takeLatest(fetchPokemonsList, function* fetchPokemonsSaga({payload}) {
       try {
-        yield put(setPokemonsList(pending()));
-        const {data} : {data: Pokedex.NamedAPIResourceList} = yield call(Pokemons.getPokemonsList);
+        const {data: oldPokemonsList}: {data: PokemonsListType} = yield select(selectPokemonsList);
+        const {data} : {data: Pokedex.NamedAPIResourceList} = yield call(Pokemons.getPokemonsList, payload);
         const {data: types} : {data: Pokedex.NamedAPIResourceList} = yield call(PokemonsTypes.getPokemonsTypesList);
-
         const typesArr: Pokedex.Type[] = [];
         const typesFetcher = async () => {
           if (!typesArr.length) {
@@ -42,8 +43,7 @@ function* pokemonSaga(): SagaIterator {
           }
         }
         yield typesFetcher();
-
-        const newData: PokemonsListType[] = [];
+        const newData: PokemonsListItem[] = [];
 
         data.results.forEach(pokemon => {
           const arrUrl = pokemon.url.split("/");
@@ -56,7 +56,7 @@ function* pokemonSaga(): SagaIterator {
 
         });
 
-        yield put(setPokemonsList(success(newData)));
+        yield put(setPokemonsList(success({next: data.next, list: [...(oldPokemonsList?.list ?? []), ...newData]})));
       } catch (err) {
         yield put(setPokemonsList(failure((err as AxiosError).message)));
       }
